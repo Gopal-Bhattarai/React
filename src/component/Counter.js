@@ -21,12 +21,16 @@ import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 // };
 
 const Counter = () => {
-  const [count, setCount] = useState(100);
+  const [count, setCount] = useState(2);
   return (
     <div>
       <button onClick={() => setCount(count + 1)}>Add</button>
       <h1>{count}</h1>
-      <button onClick={() => setCount(count - 1)}>Minus</button>
+      {/* <button onClick={() => (count > 0 ? setCount(count - 1) : void 0)}>
+      <button onClick={() => (count > 0 ? setCount(count - 1) : setCount(count))}> */}
+      <button onClick={() => setCount(count > 1 ? count - 1 : count)}>
+        Minus
+      </button>
     </div>
   );
 };

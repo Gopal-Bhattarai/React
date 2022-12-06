@@ -1,11 +1,11 @@
 import "./App.css";
-import Counter from "./component/Counter";
+import CarsList from "./component/CarsList";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Counter />
+        <CarsList />
       </header>
     </div>
   );

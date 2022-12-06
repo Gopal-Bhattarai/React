@@ -1,12 +1,16 @@
-import "./App.css";
+// import "./App.css";
+import "./billing.css";
+
+import BillingList from "./component/BillingList";
 import CarsList from "./component/CarsList";
+import Footer from "./component/Footer";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <CarsList />
-      </header>
+      {/* <CarsList /> */}
+      <BillingList />
+      <Footer />
     </div>
   );
 }

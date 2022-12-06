@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 //import array of objects = car records
 import { CARS } from "../constants";
 //import icons
-import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
-import { GrUpdate, GrDocumentUpdate } from "react-icons/gr";
+import { AiOutlineMinusCircle, AiOutlineEdit } from "react-icons/ai";
 
 const CarsList = () => {
   let [cars, setCars] = useState(CARS);
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [price, setPrice] = useState("");
-  const [id, setID] = useState(0);  //id state is made to store id value for updating a record
+
+  const [selectedCar, setSelectedCar] = useState(null);
+  const [editState, setEditState] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const brandRef = useRef(null);
+  const modelRef = useRef(null);
+  const priceRef = useRef(null);
+  const errorMsgRef = useRef(null);
 
   //hide a car
   const deleteCar = (givenId) => {
@@ -18,76 +25,59 @@ const CarsList = () => {
   };
 
   //get clicked record and popullate its value in input fields
-  const updateCar = (givenId) => {
-    cars.map((car) => {
-      if (car.id === givenId) {
-        setID(car.id);
-        setBrand(car.brand);
-        setModel(car.model);
-        setPrice(car.price);
-      }
-    });
-
-    //show input fiels and hide Plus icon
-    document.querySelector(".inputs").style.display = "grid";
-    document.querySelector("#showInput").style.display = "none";
+  const updateCar = (car) => {
+    setSelectedCar(car);
+    setEditState(true);
+    setBrand(car.brand);
+    setModel(car.model);
+    setPrice(car.price);
   };
 
-  //Show input fields
-  const showAddSection = () => {
-    document.querySelector(".inputs").style.display = "grid";
-    document.querySelector("#showInput").style.display = "none";
-    document.querySelector("#brand").focus();
+  //hide input fields
+  const cancel = () => {
+    setBrand(""); //input boxes left blank after updating/adding record
+    setModel(""); //input boxes left blank after updating/adding record
+    setPrice(""); //input boxes left blank after updating/adding record
+    setEditState(false);
+    brandRef?.current.focus();
   };
 
   //Timer function to clear(hide) error message
   const clearErrorMsg = (seconds) => {
     setTimeout(() => {
-      document.querySelector(".errorMsg").innerHTML = "";
-      document.querySelector(".errorMsg").style.display = "none";
+      errorMsgRef.current.style.display = "none";
     }, seconds);
   };
 
   const addCar = () => {
     //check if input fiels left blank? if so show error message & exit the function
     if (!brand || !model || !price) {
-      document.querySelector(".errorMsg").style.display = "flex";
-      document.querySelector(".errorMsg").innerHTML =
-        "पागल होईगवा क्या ? <br> what are you doing? <br> Brand, Model & Prices are mandatory!";
+      errorMsgRef.current.style.display = "flex";
+
+      setErrorMsg(
+        "पागल होईगवा क्या ? \n what are you doing? <br> Brand, Model & Prices are mandatory!"
+      );
+
       clearErrorMsg(5000);
-      document.querySelector("#brand").focus();
+      brandRef?.current.focus();
       return;
     }
 
     //check if new record addition or updating an existing record
-    if (id === 0) {
-      
-      //get the maximum id number and increment by one.
-      //const lastId = parseInt(cars[cars.length - 1].id) + 1;
-      const lastId =
-        cars.reduce((prev, curr) => Math.max(prev, curr.id), 0) + 1;
-      console.log("LastID: " + lastId);
-      const newData = { id: lastId, brand, model, price: parseInt(price) };
-      //setCars(cars.push(newData));
-      //Add new record into cars
-      setCars([...cars, newData]);
-    } else {
+    if (editState) {
       //Update Existing record based on id.
-      setCars(
-        cars.map((car) =>
-          car.id === id ? { ...car, id, brand, model, price } : car
-        )
-      );
-      setID(0);  //so that new record can be added. 
+      setCars(cars.map((car) => car.id === selectedCar.id ? { ...car, brand, model, price } : car ));
+      setEditState(false);
+    } else {
+      //Add new record into cars
+      setCars([...cars, { id: new Date().getTime(), brand, model, price }]);
     }
-    console.log(cars);
 
-    setBrand(""); //input boxes left blank after updating/adding record
-    setModel(""); //input boxes left blank after updating/adding record
+    setBrand("");
+    setModel("");
     setPrice(""); //input boxes left blank after updating/adding record
 
-    document.querySelector(".inputs").style.display = "none";
-    document.querySelector("#showInput").style.display = "block";
+    brandRef?.current.focus();
   };
 
   return (
@@ -113,28 +103,26 @@ const CarsList = () => {
                 <td>{car.model} </td>
                 <td>{car.price} </td>
                 <td align="center">
+                  <AiOutlineEdit
+                    id="updateCar"
+                    color={"navy"}
+                    onClick={() => updateCar(car)}
+                  />
+                  {"   "}
                   <AiOutlineMinusCircle
                     id="deleteCar"
                     color={"red"}
                     onClick={() => deleteCar(car.id)}
-                  />{" "}
-                  <GrUpdate
-                    id="updateCar"
-                    color={"navy"}
-                    onClick={() => updateCar(car.id)}
                   />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <AiOutlinePlusCircle
-          size={50}
-          color={"navy"}
-          id="showInput"
-          onClick={showAddSection}
-        />
-        <div className="errorMsg">Error Message</div>
+
+        <div className="errorMsg" ref={errorMsgRef}>
+          {errorMsg}
+        </div>
         <div className="inputs">
           <div>
             <label>Brand: </label>
@@ -144,6 +132,7 @@ const CarsList = () => {
               id="brand"
               onChange={(e) => setBrand(e.target.value)}
               value={brand}
+              ref={brandRef}
             />
           </div>
           <div>
@@ -154,6 +143,7 @@ const CarsList = () => {
               id="model"
               onChange={(e) => setModel(e.target.value)}
               value={model}
+              ref={modelRef}
             />
           </div>
           <div>
@@ -161,19 +151,17 @@ const CarsList = () => {
           </div>
           <div>
             <input
+              type="number"
               id="price"
               onChange={(e) => setPrice(e.target.value)}
               value={price}
+              ref={priceRef}
             />
           </div>
           <div></div>
           <div className="addButtonDiv">
-            <GrDocumentUpdate
-              size={50}
-              color={"blue"}
-              id="addCar"
-              onClick={addCar}
-            />
+            <button onClick={addCar}>{editState ? "Update" : "Add"}</button>
+            {editState && <button onClick={cancel}>Cancel</button>}
           </div>
         </div>
       </div>

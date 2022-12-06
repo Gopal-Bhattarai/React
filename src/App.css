@@ -5,6 +5,7 @@
 
 body{
   width: 600px;
+  height: 100vh;
   margin: 50px auto;
 }
 
@@ -63,7 +64,7 @@ body{
 
 
 .inputs {
-  display: none;
+  display: grid;
   width: 350px;
   margin: 20px auto;
   grid-template-columns: 6fr 6fr;
@@ -82,7 +83,7 @@ body{
   margin: 10px auto;
 }
 
-#deleteCar{
+#deleteCar, #updateCar{
    cursor: pointer;
 }
 
@@ -113,4 +114,10 @@ input {
   display: none;
   justify-content: center;
   align-items: center;
+}
+
+.footer{
+  position: relative;
+  bottom: -50px;
+
 }

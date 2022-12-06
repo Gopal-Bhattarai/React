@@ -1,0 +1,92 @@
+body{
+    width: 700px;
+    height: 100vh;
+    margin: 50px auto;
+  }
+
+  h1{
+    margin: 0px;
+  }
+  h2{
+    margin: 0px;
+  }
+  h4{
+    margin: 0px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid gray;
+    }
+
+  .display {
+    /* display: flex; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-row-gap: 10px;
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .controlButtons{
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: 5px 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #updateItem, #deleteItem {
+    cursor: pointer;
+    margin: 7px 10px;
+  }
+
+  .myTable{
+    border: 1px solid red;
+    margin: auto;
+    border-collapse: collapse;
+    width: 100%;
+    font-family: sans-serif;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .myTable td, .myTable th{
+    border: 1px solid #ddd;
+    padding: 5px 5px;
+  }
+  
+  .myTable tr:nth-child(even){background-color: #f2f2f2;}
+  .myTable tr:hover {background-color: #ddd;}
+  
+  .myTable th {
+    background-color: rgb(235, 222, 222);
+    color: navy;
+  }
+
+#txtDiscount{
+    text-align: right;
+}
+.errorMsg {
+    width: 300px;
+    height: 100px;
+    margin: 20px auto;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 0px 10px;
+    background-color: red;
+    box-shadow: 0 4px 12px 0 rgba(237, 5, 5, 0.2);
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  
+.footer{
+    position: fixed;
+    bottom: 20px;
+  }

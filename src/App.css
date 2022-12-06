@@ -4,15 +4,41 @@
 
 
 body{
-  margin: 150px;
+  width: 600px;
+  margin: 50px auto;
 }
 
 .display{
-  
+  /* width: 500px; */
   border-radius: 25px;
   box-shadow: 0 0 10px 2px gray;
-  background-color: #F8D5D6;
+  /* background-color: #F8D5D6; */
   padding: 10px;
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+.myTable{
+  border: 1px solid red;
+  margin: auto;
+  border-collapse: collapse;
+  width: 100%;
+  font-family: sans-serif;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.myTable td, .myTable th{
+  border: 1px solid #ddd;
+  padding: 5px 5px;
+}
+
+.myTable tr:nth-child(even){background-color: #f2f2f2;}
+.myTable tr:hover {background-color: #ddd;}
+
+.myTable th {
+  background-color: rgb(235, 222, 222);
+  color: navy;
 }
 
 .entry {
@@ -22,12 +48,16 @@ body{
   margin: 20px 10px;
 }
 
-.sno{
+.count{
   border: 1px solid navy;
   background-color: navy;
-  border-radius: 5px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   color: white;
   padding: 5px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -44,7 +74,7 @@ body{
   box-shadow: 0 0 10px 2px gray;
   padding: 20px 10px;
   font-size: 1.5em;
-  background-color: #FFFDE0;
+  background-color: #eaeae2;
 }
 
 #addCar, #showInput{
@@ -69,3 +99,18 @@ input {
   padding: 3px 5px;
   font-size: 0.8em;
 } 
+
+.errorMsg {
+  width: 300px;
+  height: 100px;
+  margin: 20px auto;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 0px 10px;
+  background-color: red;
+  box-shadow: 0 4px 12px 0 rgba(237, 5, 5, 0.2);
+  color: white;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}

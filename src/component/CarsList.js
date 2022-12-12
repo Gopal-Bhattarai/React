@@ -133,6 +133,7 @@ const CarsList = () => {
               onChange={(e) => setBrand(e.target.value)}
               value={brand}
               ref={brandRef}
+              onKeyDown={(e) => e.key === 'Enter' ? modelRef.current.focus() : void 0 }
             />
           </div>
           <div>
@@ -144,6 +145,7 @@ const CarsList = () => {
               onChange={(e) => setModel(e.target.value)}
               value={model}
               ref={modelRef}
+              onKeyDown={(e) => e.key === 'Enter' ? priceRef.current.focus() : void 0 }
             />
           </div>
           <div>
@@ -156,6 +158,7 @@ const CarsList = () => {
               onChange={(e) => setPrice(e.target.value)}
               value={price}
               ref={priceRef}
+              onKeyDown={(e) => e.key === 'Enter' ?(editState ? updateCar() : addCar() ) : void 0 }
             />
           </div>
           <div></div>

@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 import { AiOutlineMinusCircle, AiOutlineEdit } from "react-icons/ai";
-import { MENU } from "../constants";
+import { MENU } from "../constants/Menu";
 
 function BillingList() {
-  const [menu, setMenu] = useState(MENU);
+  const menu = MENU;
 
   const [bills, setBills] = useState([]);
   const [itemCode, setItemCode] = useState(0);
@@ -32,7 +32,7 @@ function BillingList() {
     setLineTotal(quantity * unitPrice);
     setVat((subTotal - discount) * 13/100);
     setGrandTotal((subTotal - discount) + ((subTotal - discount) * 13/100))
-  })
+  },[bills, quantity, unitPrice, subTotal, discount])
 
   //Timer function to clear(hide) error message
   const clearErrorMsg = (seconds) => {
@@ -51,7 +51,7 @@ function BillingList() {
         );
   
         clearErrorMsg(7000);
-        //brandRef?.current.focus();
+        itemCodeRef?.current.focus();
         return;
       }
 
@@ -81,7 +81,7 @@ function BillingList() {
 
   const cancelUpdate =() => {
     setParticular('');
-    setQuantity('');
+    setQuantity(1);
     setUnitPrice('');
     setEditState(false);
   }
@@ -90,20 +90,20 @@ function BillingList() {
 
   const discountCheck = (e) => {
     const re = /^[0-9\b]+$/;
-    if(e.target.value === '' || re.test(e.target.value) && e.target.value.length <= 3 && e.target.value <= 999 && subTotal>0 && e.target.value <= subTotal){
+    if((e.target.value === '' || re.test(e.target.value)) && (e.target.value.length <= 3) && (e.target.value <= 999) && (subTotal>0) && (e.target.value <= subTotal)){
         setDiscount(e.target.value)
     }
   }
 
   const checkMenu = () => {
     menu.filter(item => {
-        if (parseInt(item.id) == parseInt(itemCode)){
+        if (parseInt(item.id) === parseInt(itemCode)){
             setParticular(item.particular)
             setUnitPrice(item.price)
         }
+        return 0
     })
   }
-
 
   return (
     <div>
@@ -158,52 +158,77 @@ function BillingList() {
         </div>
       </div>
 
-      <div className="controls">
-      <label>Item Code</label>
-        <input
-          type="text"
-          value={itemCode}
-          ref={itemCodeRef}
-          onBlur={checkMenu}
-          onFocus={(e)=>e.target.select()}
-          onChange={(e) => setItemCode(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' ? particularRef.current.focus() : void 0 }
-          autoFocus 
-        />        
-        <label>Particular</label>
-        <input
-          type="text"
-          value={particular}
-          ref={particularRef}
-          onChange={(e) => setParticular(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' ? quantityRef.current.focus() : void 0 } 
-        />
-        <label>Quantity</label>
-        <input
-          type="number"
-          value={quantity}
-          ref={quantityRef}
-          onFocus={(e)=>e.target.select()}
-          onChange={(e) => setQuantity(e.target.value)}
-          onKeyDown={(e)=> e.key === 'Enter' ? unitPriceRef.current.focus() : void 0 }
-        />
-        <label>Unit Price</label>
-        <input
-          type="number"
-          value={unitPrice}
-          ref={unitPriceRef}
-          onFocus={(e)=>e.target.select()}
-          onChange={(e) => setUnitPrice(e.target.value)}
-          onKeyDown={(e)=> e.key === 'Enter' ? submitRef.current.focus() : void 0 }
-        />
-        <label>Total</label>
-        <input type="number" value={lineTotal} readOnly />
+      <div className="card">
+        <div className="label">Item Codes</div>
+          {menu.map(item => (
+              <span key={item.id}> {item.particular} [{ item.id}] {", "}</span>
+          ))} etc...
+        <div><b><i>e.g, 1 for coffee</i></b></div>
+      </div>
+
+      <div className="control d-flex">
+        <div className="form-inline mx-3">
+          <label class="form-control-plaintext">Item Code</label>
+            <input
+              type="number"
+              class="form-control"
+              value={itemCode}
+              ref={itemCodeRef}
+              onBlur={checkMenu}
+              onFocus={(e)=>e.target.select()}
+              onChange={(e) => setItemCode(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' ? particularRef.current.focus() : void 0 }
+              autoFocus 
+            /> 
+            <label class="form-control-plaintext">Particular</label>
+            <input
+              type="text"
+              class="form-control"
+              value={particular}
+              ref={particularRef}
+              onChange={(e) => setParticular(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' ? quantityRef.current.focus() : void 0 } 
+            />
+        </div>       
+        
+        <div className="form-inline">
+          <label class="form-control-plaintext">Quantity</label>
+          <input
+            type="number"
+            class="form-control"
+            value={quantity}
+            ref={quantityRef}
+            onFocus={(e)=>e.target.select()}
+            onChange={(e) => setQuantity(e.target.value)}
+            onKeyDown={(e)=> e.key === 'Enter' ? unitPriceRef.current.focus() : void 0 }
+          />
+          <label class="form-control-plaintext">Unit Price</label>
+          <input
+            type="number"
+            class="form-control"
+            value={unitPrice}
+            ref={unitPriceRef}
+            onFocus={(e)=>e.target.select()}
+            onChange={(e) => setUnitPrice(e.target.value)}
+            onKeyDown={(e)=> e.key === 'Enter' ? submitRef.current.focus() : void 0 }
+          />
+        </div>
+
       </div>
       <div className="controlButtons">
-        <button id="btnAddItem" ref={submitRef} onClick={editState ? updateCommit : addItem }
+      <div class="input-group m-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">रु</span>
+          </div>
+          <input type="text" class="form-control" value={lineTotal} readOnly aria-label="Amount (to the nearest Rupees)" />
+      </div>
+        
+        <button id="btnAddItem" className="btn btn-success m-3"
+        ref={submitRef} 
+        onClick={editState ? updateCommit : addItem }
         onKeyDown={(e) => e.key === 'Enter' ? itemCodeRef.current.focus() : void 0}
         >{editState ? 'Update' : 'Add Item' }</button>
-        {editState && <button id="btnAddItem" onClick={cancelUpdate}>Cancel</button>}
+        {editState && <button id="btnAddItem" className="btn btn-warning m-3" onClick={cancelUpdate}>Cancel</button>}
       </div>
     </div>
   );

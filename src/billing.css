@@ -24,7 +24,7 @@ body{
     align-items: center;
   }
 
-  .controls {
+  /* .controls {
     display: grid;
     grid-template-columns: auto auto;
     grid-row-gap: 10px;
@@ -38,7 +38,7 @@ body{
     margin: 5px 20px;
     justify-content: center;
     align-items: center;
-  }
+  } */
 
   #updateItem, #deleteItem {
     cursor: pointer;
@@ -90,3 +90,25 @@ body{
     position: fixed;
     bottom: 20px;
   }
+
+  .card {
+    /* Add shadows to create the "card" effect */
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+  
+  /* On mouse-over, add a deeper shadow */
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  
+  /* Add some padding inside the card container */
+  .container {
+    padding: 2px 16px;
+  }
+

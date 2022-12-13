@@ -264,9 +264,7 @@ function BillingList() {
             /> */}
         </div>       
         
-        <div className="form-inline">
-          <label className="form-control-plaintext">Quantity</label>
-
+        <div className="form-inline mt-3">
           <TextField
             type="text"
             label="Quantity"

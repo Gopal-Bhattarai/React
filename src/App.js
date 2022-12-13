@@ -12,36 +12,37 @@ function App() {
   const LISTS = [{
     name: 'carslist',
     title: 'Cars List',
-    component: <CarsList />
+    component: (key) => <CarsList key={key} />
   },
   {
     name: 'bilinglist',
     title: 'Billing List',
-    component: <BillingList />
+    component: (key) => <BillingList key={key} />
   },
   {
     name: 'todolist',
     title: 'Todo List',
-    component: <h2>Not yet created</h2>
+    component: (key) => <h2 key={key}>Not yet created</h2>
   },
   {
     name: 'about',
     title: 'About',
-    component: <h2>We are students from TechAxle</h2>
+    component: (key) => <h2 key={key}>Not yet created</h2>
   },
   {
     name: 'contact',
     title: 'Contact Us',
-    component: <h2>Contact us for further information</h2>
+    component: (key) => <h2 key={key}>Not yet created</h2>
   },
 ]
   return (
     <div className="App">
+      <div>
       {LISTS.map(list => (<button key={list.name} 
       className={selectList === list.name 
       ? 'selected':''} onClick={() => setSelectList(list.name)}>
         {list.title}</button>))}
-      
+      </div>
 
       
       <ToastContainer
@@ -56,9 +57,11 @@ function App() {
         pauseOnHover
         theme="light"
         />
+        <div>
         {LISTS.map(list => (
-          list.name === selectList ? list.component : null
+          list.name === selectList ? list.component(list.name) : null
         ))}
+        </div>
       {/* {selectList==='carslist' && <CarsList />}
       {selectList==='bilinglist' && <BillingList /> } */}
       <Footer />

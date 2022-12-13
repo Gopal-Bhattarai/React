@@ -2,9 +2,13 @@ import { useRef, useState, useEffect } from "react";
 import { AiOutlineMinusCircle, AiOutlineEdit } from "react-icons/ai";
 import { MENU } from "../constants/Menu";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 // import Select from 'react-select'
 import Creatable from 'react-select/creatable'
 import 'react-toastify/dist/ReactToastify.css';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+
 
 function BillingList() {
   const [bills, setBills] = useState(MENU);
@@ -101,10 +105,31 @@ function BillingList() {
     setQuantity(1);
     setUnitPrice('');
     setEditState(false);
-    toast.warning("Cancelled Triggered")
+    toast.warning("Cancel Triggered")
   }
 
-  const deleteItem = (id) => setBills(bills.filter(bill => bill.id!==id));
+  const deleteItem = (id) => {
+    //var confirmDelete = window.confirm("Are you sure you want to delete this item?");
+    //confirmDelete ? setBills(bills.filter(bill => bill.id!==id)) : void 0
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setBills(bills.filter(bill => bill.id!==id))
+        Swal.fire(
+          'Deleted!',
+          'Your item has been deleted.',
+          'success'
+        )
+      }
+    })
+  }
 
   const discountCheck = (e) => {
     const re = /^[0-9\b]+$/;
@@ -201,8 +226,9 @@ function BillingList() {
           onKeyDown={(e)=> e.key === 'Enter' ? unitPriceRef?.current.focus() : void 0 }
           onChange={(e)=> {
             setParticular(e.value) 
+            e.particular ? setParticular(e.particular) : setParticular(e.value)
             e.unitPrice ? setUnitPrice(e.unitPrice) : setUnitPrice(0)
-            console.log(e);
+            console.log(particular);
             }
           }
           />
@@ -240,15 +266,17 @@ function BillingList() {
         
         <div className="form-inline">
           <label className="form-control-plaintext">Quantity</label>
-          <input
-            type="number"
-            className="form-control"
+
+          <TextField
+            type="text"
+            label="Quantity"
             value={quantity}
             ref={quantityRef}
             onFocus={(e)=>e.target.select()}
             onChange={(e) => setQuantity(e.target.value)}
             onKeyDown={(e)=> e.key === 'Enter' ? (editState? updateCommit() : addItem() ) : void 0 }
           />
+          
           <div className="form-inline">
           <label className="form-control-plaintext">TOTAL</label>
               <input type="number" className="form-control" value={lineTotal} readOnly aria-label="Amount (to the nearest Rupees)" />

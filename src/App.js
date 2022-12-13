@@ -9,10 +9,18 @@ import Footer from "./component/Footer";
 
 function App() {
   const [selectList, setSelectList] = useState("");
+  const LISTS = [{
+    name: 'carslist',
+    title: 'Cars List'
+  },{
+    name: 'bilinglist',
+    title: 'Billing List'
+  }]
   return (
     <div className="App">
-      <button onClick={() => setSelectList('carslist')}>Cars List</button>
-      <button onClick={() => setSelectList('bilinglist')}>Billing List</button>
+      <button className={selectList === 'carslist' ? 'selected':''} onClick={() => setSelectList('carslist')}>Cars List</button>
+      <button className={selectList === 'bilinglist' ? 'selected':''} onClick={() => setSelectList('bilinglist')}>Billing List</button>
+
       
       <ToastContainer
         position="top-center"

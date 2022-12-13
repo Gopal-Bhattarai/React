@@ -11,15 +11,37 @@ function App() {
   const [selectList, setSelectList] = useState("");
   const LISTS = [{
     name: 'carslist',
-    title: 'Cars List'
-  },{
+    title: 'Cars List',
+    component: <CarsList />
+  },
+  {
     name: 'bilinglist',
-    title: 'Billing List'
-  }]
+    title: 'Billing List',
+    component: <BillingList />
+  },
+  {
+    name: 'todolist',
+    title: 'Todo List',
+    component: <h2>Not yet created</h2>
+  },
+  {
+    name: 'about',
+    title: 'About',
+    component: <h2>We are students from TechAxle</h2>
+  },
+  {
+    name: 'contact',
+    title: 'Contact Us',
+    component: <h2>Contact us for further information</h2>
+  },
+]
   return (
     <div className="App">
-      <button className={selectList === 'carslist' ? 'selected':''} onClick={() => setSelectList('carslist')}>Cars List</button>
-      <button className={selectList === 'bilinglist' ? 'selected':''} onClick={() => setSelectList('bilinglist')}>Billing List</button>
+      {LISTS.map(list => (<button key={list.name} 
+      className={selectList === list.name 
+      ? 'selected':''} onClick={() => setSelectList(list.name)}>
+        {list.title}</button>))}
+      
 
       
       <ToastContainer
@@ -34,8 +56,11 @@ function App() {
         pauseOnHover
         theme="light"
         />
-      {selectList==='carslist' && <CarsList />}
-      {selectList==='bilinglist' && <BillingList /> }
+        {LISTS.map(list => (
+          list.name === selectList ? list.component : null
+        ))}
+      {/* {selectList==='carslist' && <CarsList />}
+      {selectList==='bilinglist' && <BillingList /> } */}
       <Footer />
     </div>
   );

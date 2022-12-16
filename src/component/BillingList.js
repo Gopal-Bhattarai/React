@@ -213,7 +213,7 @@ function BillingList() {
         <div><b><i>e.g, 1 for coffee</i></b></div>
       </div> */}
 
-      <div className="control d-flex">
+      <div className="display">
         <div className="form-inline mx-3">
           <label className="form-control-plaintext">Select Item</label>
           <Creatable 

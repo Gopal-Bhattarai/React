@@ -1,70 +1,52 @@
-// import "./App.css";
+import "./App.css";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
-import "./billing.css";
+// import "./billing.css";
+import {Route, Routes, Link, NavLink } from 'react-router-dom'
+
 
 import BillingList from "./component/BillingList";
 import CarsList from "./component/CarsList";
 import Footer from "./component/Footer";
+import Sidebar from "./component/Sidebar";
 
 function App() {
   const [selectList, setSelectList] = useState("");
-  const LISTS = [{
-    name: 'carslist',
-    title: 'Cars List',
-    component: (key) => <CarsList key={key} />
-  },
-  {
-    name: 'bilinglist',
-    title: 'Billing List',
-    component: (key) => <BillingList key={key} />
-  },
-  {
-    name: 'todolist',
-    title: 'Todo List',
-    component: (key) => <h2 key={key}>Not yet created</h2>
-  },
-  {
-    name: 'about',
-    title: 'About',
-    component: (key) => <h2 key={key}>Not yet created</h2>
-  },
-  {
-    name: 'contact',
-    title: 'Contact Us',
-    component: (key) => <h2 key={key}>Not yet created</h2>
-  },
-]
+
   return (
     <div className="App">
-      <div>
-      {LISTS.map(list => (<button key={list.name} 
-      className={selectList === list.name 
-      ? 'selected':''} onClick={() => setSelectList(list.name)}>
-        {list.title}</button>))}
+      
+
+
+
+      <div className="container1">
+      <Sidebar />
+        <div style={{ width: "100%" }}> 
+          <Routes>
+            <Route path="/" element={<BillingList />} />
+            <Route path="/cars" element={<CarsList />} />
+            <Route path="/cars/tesla" element={<div>TESLA</div> } />
+            <Route path="/billing" element={<BillingList />} />
+            <Route path="*" element={<div><h1>Oops! Page not found !</h1></div>} />
+          </Routes>
+        </div>
       </div>
 
-      
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        />
-        <div>
-        {LISTS.map(list => (
-          list.name === selectList ? list.component(list.name) : null
-        ))}
-        </div>
-      {/* {selectList==='carslist' && <CarsList />}
-      {selectList==='bilinglist' && <BillingList /> } */}
-      <Footer />
+
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          />
+
+       <Footer />
     </div>
   );
 }

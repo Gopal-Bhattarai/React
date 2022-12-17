@@ -116,6 +116,7 @@ function BillingList() {
       message: "",
       isLoading: false
     })
+    toast.success("Selected Bill is deleted")
   }
 
   const discountCheck = (e) => {

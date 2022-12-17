@@ -13,6 +13,7 @@ import About from "./component/About";
 import Header from "./component/Header";
 import Styled from "./component/Styled";
 import Toast from "./component/Toast";
+import SelectBox from "./component/SelectBox";
 
 function App() {
   const StyledDiv = styled.div`
@@ -28,6 +29,8 @@ function App() {
       <Sidebar />
         <StyledDiv> 
           <Routes>
+            <Route path="/" element={<BillingList />} />
+            <Route path="/select" element={<SelectBox />} />
             <Route path="/styled" element={<Styled />} />
             <Route path="/toast" element={<Toast />} />
             <Route path="/cars" element={<CarsList />} />

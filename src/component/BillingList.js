@@ -2,12 +2,9 @@ import { useRef, useState, useEffect } from "react";
 import { AiOutlineMinusCircle, AiOutlineEdit } from "react-icons/ai";
 import { MENU } from "../constants/Menu";
 import { toast } from "react-toastify";
-import Swal from "sweetalert2";
-// import Select from 'react-select'
 import Creatable from 'react-select/creatable'
 import 'react-toastify/dist/ReactToastify.css';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import DialogBox from './DialogBox'
 
 
 function BillingList() {
@@ -23,6 +20,11 @@ function BillingList() {
   const [grandTotal, setGrandTotal]   = useState(0);
   const [editState, setEditState] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
+  const [dialog, setDialog] = useState({
+    id: 0,
+    message: "",
+    isLoading: false
+  })
   // const [errorMsg, setErrorMsg] = useState("");
 
   // const errorMsgRef = useRef(null);
@@ -60,15 +62,6 @@ function BillingList() {
         progress: undefined,
         theme: "light",
         });
-        //errorMsgRef.current.style.display = "flex";
-  
-        // setErrorMsg(
-        //   "पागल होईगवा क्या ? \n what are you doing? <br> Particular, Quantity & Unit prices are mandatory!"
-        // );
-  
-        // clearErrorMsg(7000);
-        // itemCodeRef?.current.focus();
-        // return;
       }
 
 
@@ -109,25 +102,19 @@ function BillingList() {
   }
 
   const deleteItem = (id) => {
-    //var confirmDelete = window.confirm("Are you sure you want to delete this item?");
-    //confirmDelete ? setBills(bills.filter(bill => bill.id!==id)) : void 0
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setBills(bills.filter(bill => bill.id!==id))
-        Swal.fire(
-          'Deleted!',
-          'Your item has been deleted.',
-          'success'
-        )
-      }
+    setDialog({
+      id: id,
+      message: "Are you sure you want to delete this item?",
+      isLoading: true
+    })
+  }
+
+  const areYouSureDelete = (type) => {
+    type ? setBills(bills.filter(bill=>bill.id !== dialog.id)) : void 0;
+    setDialog({
+      id: 0,
+      message: "",
+      isLoading: false
     })
   }
 
@@ -186,7 +173,7 @@ function BillingList() {
                     id="deleteItem"
                     color={"red"}
                     onClick={() => deleteItem(bill.id)}
-                  />
+                  />                  
                 </td>
               </tr>
             ))}
@@ -206,14 +193,14 @@ function BillingList() {
       
       {/* //Previously written costomized Item codes 
       <div className="card">
-        <div className="label">Item Codes</div>
+      <div className="label">Item Codes</div>
           {bills.map(item => (
-              <span key={item.id}> {item.particular} [{ item.id}] {", "}</span>
+            <span key={item.id}> {item.particular} [{ item.id}] {", "}</span>
           ))} etc...
-        <div><b><i>e.g, 1 for coffee</i></b></div>
+          <div><b><i>e.g, 1 for coffee</i></b></div>
       </div> */}
 
-      <div className="display">
+      <div className="controls d-flex">
         <div className="form-inline mx-3">
           <label className="form-control-plaintext">Select Item</label>
           <Creatable 
@@ -241,39 +228,20 @@ function BillingList() {
             onFocus={(e)=>e.target.select()}
             onChange={(e) => setUnitPrice(e.target.value)}
             onKeyDown={(e)=> e.key === 'Enter' ? quantityRef?.current.focus() : void 0 }
-          />
-            {/* <input
-              type="number"
-              class="form-control"
-              value={itemCode}
-              ref={itemCodeRef}
-              onBlur={checkMenu}
-              onFocus={(e)=>e.target.select()}
-              onChange={(e) => setItemCode(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' ? particularRef?.current.focus() : void 0 }
-              autoFocus 
-            />  */}
-            {/* <label className="form-control-plaintext">Particular</label>
-            <input
-              type="text"
-              className="form-control"
-              value={particular}
-              ref={particularRef}
-              onChange={(e) => setParticular(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' ? quantityRef.current.focus() : void 0 } 
-            /> */}
+            />
         </div>       
         
-        <div className="form-inline mt-3">
-          <TextField
+        <div className="form-inline mx-3">
+        <label className="form-control-plaintext">Quantity</label>
+          <input
             type="text"
-            label="Quantity"
+            className="form-control"
             value={quantity}
             ref={quantityRef}
             onFocus={(e)=>e.target.select()}
             onChange={(e) => setQuantity(e.target.value)}
             onKeyDown={(e)=> e.key === 'Enter' ? (editState? updateCommit() : addItem() ) : void 0 }
-          />
+            />
           
           <div className="form-inline">
           <label className="form-control-plaintext">TOTAL</label>
@@ -281,6 +249,7 @@ function BillingList() {
           </div>
         </div>
       </div>
+        {dialog.isLoading && <DialogBox onDialog={areYouSureDelete} message={dialog.message}/>}
       <div className="controlButtons">
 
         

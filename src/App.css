@@ -135,7 +135,9 @@ input {
 
 
 .footer{
-  position: relative;
-  bottom: -50px;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  margin-left: 20px;
 }
 

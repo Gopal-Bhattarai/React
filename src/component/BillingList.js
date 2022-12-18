@@ -116,7 +116,7 @@ function BillingList() {
       message: "",
       isLoading: false
     })
-    toast.success("Selected Bill is deleted")
+    type ? toast.warn("Selected Bill is deleted") : toast.info("Bill is safe !")
   }
 
   const discountCheck = (e) => {

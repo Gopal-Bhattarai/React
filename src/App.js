@@ -14,13 +14,14 @@ import Header from "./component/Header";
 import Styled from "./component/Styled";
 import Toast from "./component/Toast";
 import SelectBox from "./component/SelectBox";
+import Todo from "./component/Todo";
+
+const StyledDiv = styled.div`
+width: 100%;
+margin: 10px 30px;
+`;
 
 function App() {
-  const StyledDiv = styled.div`
-    width: 100%;
-    margin: 10px 30px;
-  `;
-
   return (
     <div className="App">
     
@@ -30,6 +31,7 @@ function App() {
         <StyledDiv> 
           <Routes>
             <Route path="/" element={<BillingList />} />
+            <Route path="/todo" element={<Todo  />} />
             <Route path="/select" element={<SelectBox />} />
             <Route path="/styled" element={<Styled />} />
             <Route path="/toast" element={<Toast />} />

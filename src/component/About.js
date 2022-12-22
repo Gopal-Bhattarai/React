@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import GB from './img/GB.jpg'
 
-const About = () => {
-    const StyledDiv = styled.div`
+const StyledDiv = styled.div`
         display: flex;
         flex-direction: column;
         font-size: 30px;
@@ -34,6 +33,7 @@ const About = () => {
         width: 450px;
     `;
 
+const About = () => {
   return (
     <StyledDiv>
         <StyledImg src={GB} />

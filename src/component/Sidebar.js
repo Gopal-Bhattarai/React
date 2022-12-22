@@ -23,8 +23,8 @@ const StyledDiv = styled.div`
     outline: none;
     border-radius: 10px;
     margin: 15px 5px;
-    // background-color: aqua;
-    text-transform: uppercase;
+    background-color: aqua;
+    /* text-transform: uppercase; */
     transition: all 0.3s;
     display: flex;
     align-items: center;

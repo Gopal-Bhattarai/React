@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
-import { RiDeleteBinLine, RiDeviceRecoverLine } from "react-icons/ri";
+import ConfirmBox from "./ConfirmBox";
+import EditDialogBox from "./EditDialogBox";
 
 const StyledDiv = styled.div`
 border: 1px solid #ddd;
@@ -10,7 +11,7 @@ border-radius: 5px;
 box-shadow: 0px 5px 1px gray;
 margin: 10px 20px;
 width: 100%;
-padding: 10px 20px;
+padding: 0px 0px;
 font-size: 1.1em;
 font-family: "Roboto";
 display: flex;
@@ -25,6 +26,12 @@ justify-content: space-between;
 .completed {
   border: 1px solid navy;
   float: right;
+}
+span{
+  padding: 10px 20px;
+  height: 100%;
+  width: 90%;
+  cursor: pointer;
 }
 small {
   background-color: crimson;
@@ -52,8 +59,8 @@ const StyledButton = styled.button`
 border: 2px solid #4caf50;
 margin: 20px auto;
 border-radius: 10px;
-background-color: #fff;
-color: #4caf50;
+background-color: #4caf50;
+color: #fff;
 padding: 15px 32px;
 text-align: center;
 text-decoration: none;
@@ -67,64 +74,69 @@ transition: 0.5s all ease-out;
 }
 `;
 
-const StyledDialogDiv = styled.div`
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-background-color: bisque;
-padding: 25px;
-border-radius: 10px;
-box-shadow: 0px 0px 10px 2px gray;
-`;
-
-const StyledButtonGroupDiv = styled.div`
-margin-top: 20px;
-display: flex;
-align-items: center;
-`;
-
-const StyledDialogButton = styled.button`
-background-color: ${({ bgcolor }) => bgcolor || "black"};
-color: white;
-padding: 10px 50px;
-font-size: 20px;
-margin: 0px 20px;
-border-radius: 10px;
-border: none;
-outline: none;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: space-around;
-`;
 
 const Todo = () => {
-  const TODO = [
-    { id: 1, task: "Goto Bigmart", completed: false },
-    { id: 2, task: "Buy GS 8", completed: false },
-    { id: 3, task: "Buy Cigratte", completed: true },
-  ];
-
-
-  const [todos, setTodos] = useState(TODO);
+  const backendAPI = 'http://127.0.0.1:8000';
+  const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState("");
-  const [todoState, setTodoState] = useState({
-    id: "",
-    status: "inactive",
+  const [todoEdit, setTodoEdit] = useState({
+    id: null,
+    desc: "",
+    action: false,
   });
   const [showDialog, setShowDialog] = useState({
     id: '',
     action: false,
   });
 
+  useEffect(()=>{
+    console.log('useEffect for fetch API');
+    const getData =  async () => {
+      // const response = await fetch(`${backendAPI}/api/read`)
+      // const json = await response.json();
+      // response.ok ?  setTodos(json.todos) : void 0;
 
-  const handleTodoClick = (id) => {
-    setTodoState({
-      id: id,
-      status: "active",
-    });
-  };
+      await fetch(`${backendAPI}/api/read`)
+      .then((response)=> response.json())
+      .then((data)=>setTodos(data.todos))
+      .catch((e)=>console.log(e.message));
+    }
+    getData();
+  },[])
+
+  const updateText = async (text) => {
+    if(text) {
+      const response = await fetch(`${backendAPI}/api/edit/`,{
+        method: 'PATCH',
+        body: JSON.stringify({
+          id: todoEdit.id,
+          desc: text,
+        }),
+        headers: {
+          'Content-Type' : 'application/json'
+        }
+      })
+      await response.json();
+      response.ok ? toast.success("Todo Updated") : toast("UNKNOWN ERROR");
+      
+      //update local state too
+      setTodos(todos.map(todo=> 
+        todo._id === todoEdit.id ? {...todo, desc: text} : todo 
+      ))
+      //console.log(todos);
+      cancelText();
+      }
+  }
+
+  const cancelText = () => {
+    setTodoEdit({
+      id: null,
+      desc: '',
+      status: false
+    })
+  }
+
+
 
   const showConfirmBox = (id) => {
     setShowDialog({
@@ -133,8 +145,13 @@ const Todo = () => {
     })
     };
 
-  const deleteCommit = (type) => {
-    type ? setTodos(todos.filter((todo) => todo.id !== showDialog.id)) : void 0;
+  const areYouSureDelete = (type) => {
+    if(type) {
+      fetch(`${backendAPI}/api/delete/${showDialog.id}`,{
+        method: 'DELETE',
+      })
+    }
+    type ? setTodos(todos.filter((todo) => todo._id !== showDialog.id)) : void 0;
     type ? toast.success("Todo Completed") : toast("Todo is still left");
     setShowDialog({
       id:'',
@@ -142,22 +159,42 @@ const Todo = () => {
     })
   }
 
+  const handleParentDivClick = () => {
+    setShowDialog({
+      id: '',
+      action: false
+    })
+  }
 
 
-  const handleAddTodo = () => {
-    todo === ""
-      ? toast.error("where is the todo item value?")
-      : setTodos([
-          ...todos,
-          { id: new Date().getTime(), task: todo, completed: false },
-        ]);
-    todo ? toast.success("Todo added successfully!") : void 0;
-    setTodo("");
+  const handleAddTodo =  async () => {
+    if(todo === "") {
+      toast.error("where is the todo item value?")
+    } else {
+
+      const response = await fetch(`${backendAPI}/api/create/`,{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({desc: todo, completed: false})
+      })
+      const json = await response.json();
+
+      if(response.ok) {
+        console.log(json.todo._id);
+        setTodos([
+            ...todos,
+            { _id: json.todo._id, desc: todo, completed: false },
+          ]);
+          todo ? toast.success("Todo added successfully!") : void 0;
+          setTodo("");
+      }
+      }
   };
 
   return (
     <div>
       <h3>Todo List!</h3>
+      <p className="text-muted">..created using React/NodeJS & MongoDB</p>
       <div
         style={{
           display: "flex",
@@ -167,50 +204,24 @@ const Todo = () => {
         }}
       >
         {todos.map((todo) => (
-          <StyledDiv
-            key={todo.id}
-            className={todoState.id === todo.id ? todoState.status : "inactive"}
-            onClick={() => handleTodoClick(todo.id)}
-          >
-            <span>{todo.task}</span>
-            <small onClick={() => showConfirmBox(todo.id)}>DONE</small>
+          <StyledDiv key={todo._id}>
+            <span onClick={() => setTodoEdit({
+              id: todo._id, desc: todo.desc, status: true
+            })}>{todo.desc}</span>
+            <small onClick={() => showConfirmBox(todo._id)}>DONE</small>
           </StyledDiv>
         ))}
         <StyledInput
           autoFocus={true}
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
-          onKeyDown={(e) => e.key ==='Enter' ? handleAddTodo() : console.log(e.key)}
+          onKeyDown={(e) => e.key ==='Enter' ? handleAddTodo() : void 0}
           placeholder="enter your list...."
         />
         <StyledButton onClick={handleAddTodo}>Add Todo</StyledButton>
       </div>
-
-      {showDialog.action && (
-        <StyledDialogDiv>
-          <div>
-            <h2>Confirmation</h2>
-            <div><hr /></div>
-            <h3>Are you sure this todo is completed?</h3>
-
-            <StyledButtonGroupDiv>
-              <StyledDialogButton bgcolor="red" 
-              onClick={() => deleteCommit(true)}>
-                <RiDeleteBinLine />
-                <span>Yes</span>
-              </StyledDialogButton>
-
-              <StyledDialogButton
-                bgcolor="green"
-                onClick={() => deleteCommit(false)}
-              >
-                No
-                <RiDeviceRecoverLine />
-              </StyledDialogButton>
-            </StyledButtonGroupDiv>
-          </div>{" "}
-        </StyledDialogDiv>
-      )}
+      {todoEdit.status && <EditDialogBox desc={todoEdit.desc} updateText={updateText} cancelText={cancelText} />}
+      {showDialog.action && <ConfirmBox deleteCommit={areYouSureDelete} handleParentDivClick={handleParentDivClick}/> }
     </div>
   );
 };

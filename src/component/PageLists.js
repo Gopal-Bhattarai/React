@@ -1,8 +1,17 @@
 import {AiOutlineCar,AiOutlineOrderedList} from 'react-icons/ai'
 import {RiBillLine} from 'react-icons/ri'
-import {FcAbout, FcContacts} from 'react-icons/fc'
+import {FcAbout, FcContacts,FcNews} from 'react-icons/fc'
 
-const LISTS = [{
+const LISTS = [
+  {
+    name: 'news',
+    title: 'NewsApp',
+    // component: (key) => <h2 key={key}>Contact us</h2>,
+    path: '/news',
+    icon: <FcNews  size={30} />,
+    toolTip: 'Latest News'
+  },
+  {
     name: 'carslist',
     title: 'Cars List',
     // component: (key) => <CarsList key={key} />,

@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import {Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
 
-import BillingList from "./component/BillingList";
+import BillingList from "./component/BillingList/BillingList";
 import CarsList from "./component/CarsList";
 import Footer from "./component/Footer";
 import Sidebar from "./component/Sidebar";
@@ -14,23 +14,25 @@ import Header from "./component/Header";
 import Styled from "./component/Styled";
 import Toast from "./component/Toast";
 import SelectBox from "./component/SelectBox";
-import Todo from "./component/Todo";
+import Todo from "./component/Todo/Todo";
+import NewsHome from "./component/News/NewsHome";
 
 const StyledDiv = styled.div`
 width: 100%;
-margin: 10px 30px;
+margin: 0px 0px;
 `;
 
 function App() {
   return (
     <div className="App">
     
-      <Header />
-      <div className="container1">
-      <Sidebar />
+      {/* <Header /> */}
+      {/* <div className="container1"> */}
+      {/* <Sidebar /> */}
         <StyledDiv> 
           <Routes>
             <Route path="/" element={<BillingList />} />
+            <Route path="/news" element={<NewsHome />} />
             <Route path="/todo" element={<Todo  />} />
             <Route path="/select" element={<SelectBox />} />
             <Route path="/styled" element={<Styled />} />
@@ -44,7 +46,7 @@ function App() {
 
           <Footer />
         </StyledDiv>
-      </div>
+      {/* </div> */}
 
 
         <ToastContainer />

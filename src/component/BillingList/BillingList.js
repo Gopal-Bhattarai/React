@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { AiOutlineMinusCircle, AiOutlineEdit } from "react-icons/ai";
-import { MENU } from "../constants/Menu";
+import { MENU } from "../../constants/Menu";
 import { toast } from "react-toastify";
 import Creatable from 'react-select/creatable'
 import 'react-toastify/dist/ReactToastify.css';

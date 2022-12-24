@@ -35,7 +35,7 @@ const StyledDiv = styled.div`
 
 const About = () => {
   return (
-    <StyledDiv>
+    <StyledDiv className='container my-4  '>
         <StyledImg src={GB} />
         <StyledContact>About Me</StyledContact>
       <span>bhattarai_g@hotmail.com</span>

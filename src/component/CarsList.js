@@ -82,7 +82,7 @@ const CarsList = () => {
 
   return (
     <>
-      <div className="display">
+      <div className="container my-4 display">
         <h2 className="count">{cars.length} : records</h2>
         {console.log(cars.length)}
         <table className="myTable">

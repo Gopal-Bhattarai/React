@@ -96,7 +96,7 @@ const Todo = () => {
       // const json = await response.json();
       // response.ok ?  setTodos(json.todos) : void 0;
 
-      await fetch(`${backendAPI}/api/read`)
+      await fetch(`${backendAPI}/api/todo/read`)
       .then((response)=> response.json())
       .then((data)=>setTodos(data.todos))
       .catch((e)=>console.log(e.message));
@@ -106,7 +106,7 @@ const Todo = () => {
 
   const updateText = async (text) => {
     if(text) {
-      const response = await fetch(`${backendAPI}/api/edit/`,{
+      const response = await fetch(`${backendAPI}/api/todo/edit/`,{
         method: 'PATCH',
         body: JSON.stringify({
           id: todoEdit.id,
@@ -147,7 +147,7 @@ const Todo = () => {
 
   const areYouSureDelete = (type) => {
     if(type) {
-      fetch(`${backendAPI}/api/delete/${showDialog.id}`,{
+      fetch(`${backendAPI}/api/todo/delete/${showDialog.id}`,{
         method: 'DELETE',
       })
     }
@@ -172,7 +172,7 @@ const Todo = () => {
       toast.error("where is the todo item value?")
     } else {
 
-      const response = await fetch(`${backendAPI}/api/create/`,{
+      const response = await fetch(`${backendAPI}/api/todo/create/`,{
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({desc: todo, completed: false})
@@ -192,7 +192,7 @@ const Todo = () => {
   };
 
   return (
-    <div>
+    <div className="container my-4">
       <h3>Todo List!</h3>
       <p className="text-muted">..created using React/NodeJS & MongoDB</p>
       <div
@@ -203,11 +203,11 @@ const Todo = () => {
           justifyContent: "center",
         }}
       >
-        {todos.map((todo) => (
+        {todos.map((todo,i) => (
           <StyledDiv key={todo._id}>
             <span onClick={() => setTodoEdit({
               id: todo._id, desc: todo.desc, status: true
-            })}>{todo.desc}</span>
+            })}>{i+1}. &nbsp; {todo.desc}</span>
             <small onClick={() => showConfirmBox(todo._id)}>DONE</small>
           </StyledDiv>
         ))}

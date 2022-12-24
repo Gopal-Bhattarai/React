@@ -43,6 +43,7 @@ const Contact = () => {
       setBody('')
   }
   return (
+    <div className="container">
     <div className='card rounded m-3 shadow p-5'>
       <h5 className="card-title">Express your concern!</h5>
       <form>
@@ -55,6 +56,7 @@ const Contact = () => {
         <button className='btn btn-primary mt-3' onClick={handleSend}>Send</button>
       </div>
       </form>
+    </div>
     </div>
   )
 }

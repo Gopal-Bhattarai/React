@@ -138,7 +138,7 @@ function BillingList() {
   // }
 
   return (
-    <div>
+    <div className="container my-4">
       <div className="display">
         <h1 className="titleText">TAX Invoice</h1>
         <h2 className="nameText">My Restaurant</h2>

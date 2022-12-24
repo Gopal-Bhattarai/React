@@ -31,7 +31,7 @@ const Contact = () => {
    
   const handleSend = async (e) => {
       e.preventDefault();
-      const response = await fetch('http://localhost:8000/sendEmail', {
+      const response = await fetch('http://localhost:8000/email/sendEmail', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({email, subject, body})

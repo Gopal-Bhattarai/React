@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 //import array of objects = car records
-import { CARS } from "../constants";
+import { CARS } from "../../constants";
 //import icons
 import { AiOutlineMinusCircle, AiOutlineEdit } from "react-icons/ai";
 

@@ -1,6 +1,7 @@
 import {AiOutlineCar,AiOutlineOrderedList} from 'react-icons/ai'
 import {RiBillLine} from 'react-icons/ri'
 import {FcAbout, FcContacts,FcNews} from 'react-icons/fc'
+import {GrNotes} from 'react-icons/gr'
 
 const LISTS = [
   {
@@ -9,6 +10,14 @@ const LISTS = [
     // component: (key) => <h2 key={key}>Contact us</h2>,
     path: '/news',
     icon: <FcNews  size={30} />,
+    toolTip: 'Latest News'
+  },
+  {
+    name: 'inotes',
+    title: 'iNotes App',
+    // component: (key) => <h2 key={key}>Contact us</h2>,
+    path: '/inotes',
+    icon: <GrNotes  size={30} />,
     toolTip: 'Latest News'
   },
   {

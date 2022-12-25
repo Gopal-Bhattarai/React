@@ -4,6 +4,7 @@ import NavBar from "./NavBar"
 import News from "./News"
 import Settings from "./Settings";
 
+
 const NewsHome = () => {
     const [pagesize, setPagesize] = useState(6);
     const [showSetting, setShowSetting] = useState(false)

@@ -1,9 +1,9 @@
 import React from 'react'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
-import { FancyButton, SubmitButton } from './Styled/Button'
-import StyledButton from './Styled/Button'
-import { AnimatedLogo, DarkButton } from './Styled/Button.styles'
-import GB from './img/GB.jpg'
+import { FancyButton, SubmitButton } from '../Styled/Button'
+import StyledButton from '../Styled/Button'
+// import { AnimatedLogo, DarkButton } from '../Styled/Button.styles'
+// import GB from '../img/GB.jpg'
 
 
 const theme = {

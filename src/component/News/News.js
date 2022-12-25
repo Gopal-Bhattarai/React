@@ -24,6 +24,7 @@ const updateNewsData = async (newURL) => {
 
   useEffect(() => {
     updateNewsData(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=7a7f383fbf134e72af12d6725196c61e&page=${page}&pageSize=${pageSize}`);
+    // eslint-disable-next-line 
   },[])
 
   const handleNextClick = () => {
@@ -47,7 +48,6 @@ const updateNewsData = async (newURL) => {
       <div className="row">
         {loading && articles.map((article)=>{
             if(article.title.toLowerCase().includes(keywords.toLowerCase())) {
-            //setCount(count + 1)
              return (   
              <div className="col-md-4" key={article.url}>
                 <NewsItem 

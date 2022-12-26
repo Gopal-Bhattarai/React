@@ -46,9 +46,10 @@ const updateNewsData = async (newURL) => {
       <small>showing {!count?articles.length:count} results out of {totalArticles} articles</small>
       
       <div className="row">
-        {loading && articles.map((article)=>{
+        { // eslint-disable-next-line
+        loading && articles.map((article)=>{
             if(article.title.toLowerCase().includes(keywords.toLowerCase())) {
-             return (   
+             return (
              <div className="col-md-4" key={article.url}>
                 <NewsItem 
                 title={article.title} 
@@ -59,7 +60,8 @@ const updateNewsData = async (newURL) => {
                 date={article.publishedAt}
                 source={article.source.name}
                 />
-                </div>  )
+                </div> 
+              )
             }
             })
         }

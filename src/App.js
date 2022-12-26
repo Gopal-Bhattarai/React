@@ -33,7 +33,7 @@ function App() {
         <StyledDiv> 
           <Routes>
             <Route path="/" element={<Contact />} />
-            <Route path="/inotes" element={<InotesHome />} />
+            <Route path="/inotes//*" element={<InotesHome />} />
             <Route path="/news" element={<NewsHome />} />
             <Route path="/todo" element={<Todo  />} />
             <Route path="/select" element={<SelectBox />} />

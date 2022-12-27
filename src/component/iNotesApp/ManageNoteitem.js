@@ -41,7 +41,7 @@ const ManageNoteitem = ({note, updateNote}) => {
             <p className="card-text">{parse(sDescription)}</p>
             <p className="card-text my-0"><small>TAG: {parse(sTag)}</small></p>
             <div className="d-flex justify-content-between">
-            <p className="btn btn-sm btn-light" onClick={()=>updateNote(note)}><BiEdit color={"navy"} /></p>
+            <p className="btn btn-sm btn-light" ><BiEdit color={"navy"} /></p>
             <p className="btn btn-sm btn-light" onClick={()=>deleteAllNote(note._id)}><RiDeleteBin6Line color={"red"} /></p>
             </div>
         </div>

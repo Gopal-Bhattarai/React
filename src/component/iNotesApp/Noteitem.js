@@ -22,7 +22,7 @@ const Noteitem = ({note, updateNote}) => {
     <>
     { 
     
-    ( note.title.toLowerCase().includes(keywords.toLowerCase()) 
+    (keywords && note.title.toLowerCase().includes(keywords.toLowerCase()) 
     || note.description.toLowerCase().includes(keywords.toLowerCase()) 
     || note.tag.toLowerCase().includes(keywords.toLowerCase()) )
     

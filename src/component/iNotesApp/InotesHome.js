@@ -9,6 +9,8 @@ import Profile from "./users/Profile";
 import UserState from "./context/UserState";
 import Users from "./users/Users";
 import ManageNotes from "./ManageNotes";
+import Index from "./Index";
+import ProductHome from './product/ProductHome'
 
 const InotesHome = () => {
   return (
@@ -19,7 +21,9 @@ const InotesHome = () => {
         <Alert />
         <div className="container">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Index />} />
+            <Route path="/notes" element={<Home />} />
+            <Route path="/products" element={<ProductHome />} />
             <Route path="/users" element={<Users />} />
             <Route path="/managenotes" element={<ManageNotes />} />
             <Route path="/signup" element={<Signup />} />

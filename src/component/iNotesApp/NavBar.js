@@ -37,8 +37,13 @@ const NavBar = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className={`nav-link ${location.pathname==="/inotes" ? "active" : "" }`} to="/inotes" >
+                <Link className={`nav-link ${location.pathname==="/inotes/notes" ? "active" : "" }`} to="/inotes/notes" >
                   My Notes
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className={`nav-link ${location.pathname==="/inotes/products" ? "active" : "" }`} to="/inotes/products" >
+                  My Products
                 </Link>
               </li>
               

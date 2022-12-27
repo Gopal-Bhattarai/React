@@ -7,9 +7,9 @@ const NoteState = (props) => {
 const [notes, setNotes] = useState(notesInitial)
 
 //Get all Notes
-const getNotes = async () => {
+const getNotes = async (URL=`${host}/api/notes/fetchallnotes`) => {
   try {
-    const response = await fetch(`${host}/api/notes/fetchallnotes`,{
+    const response = await fetch(URL,{
       method: 'GET',
       headers: {
         'Content-Type' : 'application/json',
@@ -42,10 +42,28 @@ const addNote = async (title, description, tag) => {
       console.log(error.message);
   }
 }
-//Delete a Note
+//Delete a Note from authenticated user
 const deleteNote = async (id)=> {
   try {
     const response = await fetch(`${host}/api/notes/deletenote/${id}`,{
+      method: 'DELETE',
+      headers: {
+        'Content-Type' : 'application/json',
+        "auth-token": localStorage.getItem('token')
+      }
+    });
+    const json = await response.json();
+    setNotes(notes.filter(note=>note._id!==id))
+    showAlert('Notes deleted successfully','success')
+    console.log(json);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+//Delete a Note from Admin user
+const deleteAllNote = async (id)=> {
+  try {
+    const response = await fetch(`${host}/api/admin/deletenote/${id}`,{
       method: 'DELETE',
       headers: {
         'Content-Type' : 'application/json',
@@ -96,10 +114,12 @@ const showAlert= (message, type) => {
 
 //Search Keywords
 const [keywords, setKeywords] = useState("");
+//Total keywords matched found in document
+const [totalKeywords, setTotalKeywords] = useState("");
 
   return (
     <div>
-        <NoteContext.Provider value={{notes, setNotes, getNotes, addNote, deleteNote, editNote, alert, showAlert, keywords, setKeywords}}>
+        <NoteContext.Provider value={{notes, setNotes, getNotes, addNote, deleteNote, deleteAllNote, editNote, alert, showAlert, keywords, setKeywords, totalKeywords, setTotalKeywords}}>
             {props.children}
         </NoteContext.Provider>
     </div>

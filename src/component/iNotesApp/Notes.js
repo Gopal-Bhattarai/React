@@ -73,7 +73,7 @@ const handleClick = (e) => {
     </div>
 
     <div className="row my-4">
-    <h1>Your Notes</h1>
+    <h1>My Notes...</h1>
     {notes.length===0 && <div className='card m-3'><h5>No Notes to display</h5></div>}
     {notes.map(note=>{
         return (

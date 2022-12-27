@@ -7,6 +7,8 @@ import Signup from "./users/Signup";
 import Login from "./users/Login";
 import Profile from "./users/Profile";
 import UserState from "./context/UserState";
+import Users from "./users/Users";
+import ManageNotes from "./ManageNotes";
 
 const InotesHome = () => {
   return (
@@ -18,6 +20,8 @@ const InotesHome = () => {
         <div className="container">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/managenotes" element={<ManageNotes />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />

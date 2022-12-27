@@ -34,7 +34,10 @@ const Profile = () => {
       <h1>Your Profile Page</h1>
       <form className='my-3' onSubmit={handleSubmit}>
             <div className="my-3">
-                <span className='badge rounded-pill bg-danger'>MongoDB ID : {user.id}</span> 
+            <span className='badge rounded-pill bg-danger'>{user.role===1?'Admin':''}</span> 
+            </div>
+            <div className="my-3">
+                <span className='badge rounded-pill bg-success'>MongoDB ID : {user.id}</span> 
                 <span className='badge rounded-pill bg-secondary'>Active Since: {activeDate.getDate()+'.'+month[activeDate.getMonth()] +' - '+ activeDate.getFullYear() }</span> 
             </div>
             <div className="mb-3">

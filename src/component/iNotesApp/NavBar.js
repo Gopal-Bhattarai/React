@@ -7,7 +7,7 @@ import { useContext } from 'react';
 const NavBar = () => {
     let location = useLocation();
     let navigate = useNavigate();
-    const {firstName} = useContext(UserContext);
+    const {firstName, user} = useContext(UserContext);
     const {setKeywords} = useContext(NoteContext);
 
 
@@ -38,16 +38,20 @@ const NavBar = () => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link className={`nav-link ${location.pathname==="/inotes" ? "active" : "" }`} to="/inotes" >
-                  Notes
+                  My Notes
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className={`nav-link ${location.pathname==="/signup" ? "active" : "" }`} to="/inotes/signup">
-                  New User
-                </Link>
-              </li>
+              
+                { user.role===1 ? 
+                <>
+                <li className="nav-item"><Link className={`nav-link ${location.pathname==="/signup" ? "active" : "" }`} to="/inotes/signup"> New User </Link></li> 
+                <li className="nav-item"><Link className={`nav-link ${location.pathname==="/allUsers" ? "active" : "" }`} to="/inotes/users"> Users </Link></li> 
+                <li className="nav-item"><Link className={`nav-link ${location.pathname==="/allUsers" ? "active" : "" }`} to="/inotes/managenotes"> Notes </Link></li> 
+                </>
+                : void 0 }
+              
 
-              </ul>
+            </ul>
 
             <form className="d-flex" role="search">
               <input

@@ -11,12 +11,14 @@ import Users from "./users/Users";
 import ManageNotes from "./ManageNotes";
 import Index from "./Index";
 import ProductHome from './product/ProductHome'
+import ProductState from "./context/Product/ProductState";
 
 const InotesHome = () => {
   return (
     <>
       <UserState>
       <NoteState>
+      <ProductState>
         <NavBar />
         <Alert />
         <div className="container">
@@ -31,6 +33,7 @@ const InotesHome = () => {
             <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
+      </ProductState>
       </NoteState>
       </UserState>
     </>

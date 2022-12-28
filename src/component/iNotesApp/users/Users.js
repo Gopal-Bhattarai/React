@@ -19,7 +19,7 @@ const Users = () => {
         <div className='mx-3'>{totalKeywords}</div>
         {users && users.map(user=>{
             return (
-            <div className="row" key={user._id}>
+            <div className="container" key={user._id}>
                 <UserItem user={user} />
             </div>
             )

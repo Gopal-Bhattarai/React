@@ -11,7 +11,7 @@ const Signup = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
   const {showAlert} = useContext(NoteContext);
-  const {getUser} = useContext(UserContext);
+  const {getUser, urlHost} = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +19,7 @@ const Signup = () => {
       return setErrorMsg('Password mismatched');
     }
       try {
-        const response = await fetch(`http://localhost:8000/api/users/signup`,{
+        const response = await fetch(`${urlHost}/api/users/signup`,{
           method: 'POST',
           headers: {
             'Content-Type' : 'application/json'

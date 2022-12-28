@@ -10,7 +10,6 @@ const NavBar = () => {
     const {firstName, user} = useContext(UserContext);
     const {setKeywords} = useContext(NoteContext);
 
-
     const handleSignout = () => {
       localStorage.removeItem('token');
       localStorage.removeItem('email');

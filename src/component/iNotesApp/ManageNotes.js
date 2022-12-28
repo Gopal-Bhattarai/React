@@ -7,11 +7,11 @@ import ManageNoteitem from './ManageNoteitem';
 
 const ManageNotes = () => {
     const {notes, getNotes} = useContext(NoteContext);
-    const {getUser} = useContext(UserContext);
+    const {getUser, urlHost} = useContext(UserContext);
     const navigate = useNavigate();
     
     useEffect(()=>{
-      localStorage.getItem('token') ? getNotes('http://localhost:8000/api/admin/allnotes') : navigate("/inotes/login")
+      localStorage.getItem('token') ? getNotes(`${urlHost}/api/admin/allnotes`) : navigate("/inotes/login")
       getUser();
         //eslint-disable-next-line
     },[])

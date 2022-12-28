@@ -4,7 +4,12 @@ import { useState } from 'react'
 
 const UserState = (props) => {
 
+  const urlHost = process.env.REACT_APP_HOST;
+  
     const [firstName, setFirstName] = useState('');
+    //profile picture URL Src
+    const [file, setFile] = useState('')
+
     const [user, setUser] = useState({
         id: '',
         fullName: '',
@@ -12,12 +17,13 @@ const UserState = (props) => {
         password: '',
         confirmpassword:'',
         createdAt: '',
-        role: 0
+        role: 0,
+        avatar:''
     });
 
     const getUser = (async () => {
         if(localStorage.getItem('token')) {
-            const response = await fetch(`http://localhost:8000/api/users/getuser`,{
+            const response = await fetch(`${urlHost}/api/users/getuser`,{
                 method: 'POST',
                 headers: {
                 'Content-Type' : 'application/json',
@@ -32,17 +38,22 @@ const UserState = (props) => {
                 password: '',
                 confirmpassword:'',
                 createdAt: json.createdAt,
-                role: json.role
+                role: json.role,
+                avatar: json.avatar
             })
             const fName = json.fullName.split(" ");
             setFirstName(fName[0])
+            const userid = json._id;
+            setFile(`${urlHost}/images/${userid}/${json.avatar}`);
+    
         }
     });
+
 
     const [users, setUsers] = useState([]);
 
     const getAllUsers = async () => {
-        const response = await fetch(`http://localhost:8000/api/admin/allUsers`, {
+        const response = await fetch(`${urlHost}/api/admin/allUsers`, {
             method: 'POST',
             headers:{
                 "Content-Type" :"application/json",
@@ -55,7 +66,7 @@ const UserState = (props) => {
     }
 
     const updateUserProfile = async (id,fullName,password) => {
-        const response = await fetch(`http://localhost:8000/api/users/updateuser/${id}`,{
+        const response = await fetch(`${urlHost}/api/users/updateuser/${id}`,{
             method: 'PUT',
             headers: {
               'Content-Type' : 'application/json',
@@ -69,7 +80,7 @@ const UserState = (props) => {
     //Delete a User
     const deleteUser = async (id)=> {
     try {
-      const response = await fetch(`http://localhost:8000/api/admin/deleteUser/${id}`,{
+      const response = await fetch(`${urlHost}/api/admin/deleteUser/${id}`,{
         method: 'DELETE',
         headers: {
           'Content-Type' : 'application/json',
@@ -85,9 +96,11 @@ const UserState = (props) => {
     }
   }
 
+
+
     return (
         <div>
-            <UserContext.Provider value={{firstName, getUser, user, setUser, updateUserProfile, deleteUser, users, getAllUsers}}>
+            <UserContext.Provider value={{firstName, getUser, user, setUser, updateUserProfile, deleteUser, users, getAllUsers, file, setFile, urlHost}}>
                 {props.children}
             </UserContext.Provider>
         </div>

@@ -8,10 +8,11 @@ import '../css/style.css'
 
 const UserItem = ({user}) => {
   const {keywords, setTotalKeywords} = useContext(NoteContext);
-  const {deleteUser} = useContext(UserContext);
+  const {deleteUser, urlHost} = useContext(UserContext);
 
   let fullName = user.fullName;
   let email = user.email;
+  let userImg = `${urlHost}/images/${user._id}/${user.avatar}`;
   
   if(keywords!=="") {
     fullName = user.fullName.toLowerCase().replace(keywords.toLowerCase(),`<span className="highlight"><b>${keywords}</b></span>`);
@@ -26,23 +27,24 @@ const UserItem = ({user}) => {
   return (
     <>
     <div className="card d-flex flex-row">
-      <div className="card-body col-sm-6">
-        <h5 className="card-title">{parse(fullName)}</h5>
-        <p className="card-text">{parse(email)}</p>
+      <div className="col-sm-3">
+      <img className="dbUserPic m-2" src={userImg} />
+      </div>
+      <div className="card-body col-sm-7">
+        <h5 className="card-title display-3">{parse(fullName)}</h5>
+        <p className="card-text display-6">{parse(email)}</p>
         <p className="card-text my-0">
           <small>Role: {user.role===1? parse('<span className="badge rounded-pill bg-danger">Admin</span>') :'User'}</small><br />
           {user.role!==1? <small>MongoDB ID: {user._id} </small> : '' }
         </p>
       </div>
-        <div className="col-sm-6 d-flex justify-content-end">
+        <div className="col-sm-2 d-flex justify-content-end">
           <div>
           {user.role!==1 ?
-          <p
-            className="btn btn-sm btn-light"
-            onClick={() => deleteUser(user._id)}
-          >
+          <p className="btn btn-sm btn-light"
+            onClick={() => deleteUser(user._id)} >
             <RiDeleteBin6Line color={"red"} size={30}/>
-          </p> : void 0 }
+          </p> : void 0}
           </div>
         </div>
     </div>
